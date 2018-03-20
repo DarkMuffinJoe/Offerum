@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+    <head>
+        <title>{{ title|default('') }}</title>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+        <nav>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="#">Offerum</a>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('offer.index') }}">Oferty</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Dodaj ofertę</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a class="nav-link" href="{{ path('security.logout') }}">Logout</a>
+                            {% else %}
+                                <a class="nav-link" href="{{ path('security.login') }}">Login</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </nav>
+        <div class="container mt-3">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

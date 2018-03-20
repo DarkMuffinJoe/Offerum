@@ -1,3 +1,14 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+security.login:
+  path: /login
+  controller: Offerum\Controller\SecurityController:login
+
+security.logout:
+  path: /logout
+
+security.register:
+  path: /register
+  controller: Offerum\Controller\SecurityController:register

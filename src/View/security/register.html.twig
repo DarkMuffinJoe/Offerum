@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% set title = 'Login' %}
+
+{% block body %}
+    <div class="col-md-5 mx-auto">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <button class="btn btn-primary" type="submit">Register</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
