@@ -5,21 +5,23 @@
     <div class="col-md-5 mx-auto">
         <form action="{{ path('security.login') }}" method="post">
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Nazwa użytkownika</label>
                 <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}">
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Hasło</label>
                 <input class="form-control" type="password" id="password" name="_password">
             </div>
 
-            <button class="btn btn-primary" type="submit">Login</button>
-            <a class="btn btn-light" href="{{ path('security.register') }}">Register</a>
-
             {% if error %}
-                {{ error.messageKey }}
+                <div class="invalid-feedback d-block">
+                    <ul class="list-unstyled my-2"><li><span class="initialism form-error-icon badge badge-danger">Error</span> <span class="form-error-message">Błąd logowania</span></li></ul>
+                </div>
             {% endif %}
+
+            <button class="btn btn-primary" type="submit">Zaloguj</button>
+            <a class="btn btn-light" href="{{ path('security.register') }}">Rejestracja</a>
         </form>
     </div>
 {% endblock %}

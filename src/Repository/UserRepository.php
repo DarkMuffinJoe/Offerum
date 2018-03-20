@@ -15,6 +15,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function loadUserByUsername($username)
     {
         try
@@ -31,12 +34,22 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
     }
 
+    /**
+     * @param User $user
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function save(User $user)
     {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @param User $user
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function delete(User $user)
     {
         $this->getEntityManager()->remove($user);

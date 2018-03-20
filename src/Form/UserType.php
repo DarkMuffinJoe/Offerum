@@ -20,27 +20,47 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
+                'label' => 'Nazwa użytkownika',
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
+                    ]),
                     new Length([
-                        'min' => 3
+                        'min' => 3,
+                        'minMessage' => 'Nazwa użytkownika zbyt krótka, musi mieć minimalnie {{ limit }} znaków'
                     ])
                 ]
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank(),
-                    new Email()
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
+                    ]),
+                    new Email([
+                        'message' => 'To nie jest prawidłowy adres email'
+                    ])
                 ]
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
+                'invalid_message' => 'Hasła nie są takie same',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Hasło zbyt krótkie, musi mieć minimalnie {{ limit }} znaków',
+                        'max' => 4096,
+                        'maxMessage' => 'Hasło zbyt długie, musi mieć maksymalnie {{ limit }} znaków'
+                    ])
+                ],
                 'first_options' => [
-                    'label' => 'Password'
+                    'label' => 'Hasło',
                 ],
                 'second_options' => [
-                    'label' => 'Repeat password'
+                    'label' => 'Powtórz hasło'
                 ]
             ]);
     }

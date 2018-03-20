@@ -10,8 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class User
  * @package Offerum\Entity
  * @ORM\Entity(repositoryClass="Offerum\Repository\UserRepository")
- * @UniqueEntity(fields="username", message="Username already taken")
- * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="username", message="Nazwa użytkownika zajęta")
+ * @UniqueEntity(fields="email", message="Email już w użyciu")
  */
 class User implements UserInterface
 {
