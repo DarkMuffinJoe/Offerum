@@ -12,3 +12,17 @@ security.logout:
 security.register:
   path: /register
   controller: Offerum\Controller\SecurityController:register
+
+offer.index:
+  path: /
+  controller: Offerum\Controller\OfferController:index
+
+offer.create:
+  path: /offer/create
+  controller: Offerum\Controller\OfferController:create
+
+offer.show:
+  path: /offer/{id}
+  controller: Offerum\Controller\OfferController:show
+  requirements:
+    id: '\d+'
