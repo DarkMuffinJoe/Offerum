@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% set title = 'Moje oferty' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" class="col-md-7">Nazwa</th>
+            <th scope="col" class="col-md-2">Cena</th>
+            <th scope="col" class="col-md-3">Opcje</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for offer in offers %}
+                <tr>
+                    <td class="align-middle">
+                        {% if offer.active %}
+                            <span class="badge badge-success">Aktywne</span>
+                        {% else %}
+                            <span class="badge badge-danger">Nieaktywne</span>
+                        {% endif %}
+                        {{ offer.name }}
+                    </td>
+                    <td class="align-middle">{{ (offer.price / 100)|number_format(2, ',', ' ')}} PLN</td>
+                    <td>
+                        <a class="btn btn-sm btn-light" href="{{ path('offer.show', {'id': offer.id}) }}">Pokaż</a>
+                        {#{% if offer.active %}#}
+                            {#<a class="btn btn-sm btn-light" href="{{ path('offer.show', {'id': offer.id}) }}">Dezaktywuj</a>#}
+                        {#{% else %}#}
+                            {#<a class="btn btn-sm btn-light" href="{{ path('offer.show', {'id': offer.id}) }}">Aktywuj</a>#}
+                        {#{% endif %}#}
+                        <a class="btn btn-sm btn-primary" href="{{ path('offer.edit', {'id': offer.id}) }}">Edytuj</a>
+                        <a class="btn btn-sm btn-danger" href="{{ path('offer.delete', {'id': offer.id}) }}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

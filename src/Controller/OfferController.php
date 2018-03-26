@@ -49,6 +49,49 @@ class OfferController extends AbstractController
         ]);
     }
 
+    public function edit(Request $request, $id)
+    {
+        $offer = $this->offerRepository->find($id);
+
+        if (!$offer) {
+            throw $this->createNotFoundException('Offer with ID ' . $id . ' not found');
+        }
+
+        if ($offer->getAuthor() != $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $form = $this->createForm(OfferType::class, $offer);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->offerRepository->save($offer);
+
+            return $this->redirectToRoute('user.my_offers');
+        }
+
+        return $this->render('offer/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $offer = $this->offerRepository->find($id);
+
+        if (!$offer) {
+            throw $this->createNotFoundException('Offer with ID ' . $id . ' not found');
+        }
+
+        if ($offer->getAuthor() != $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $this->offerRepository->delete($offer);
+
+        return $this->redirectToRoute('user.my_offers');
+    }
+
     public function show(int $id)
     {
         $offer = $this->offerRepository->find($id);

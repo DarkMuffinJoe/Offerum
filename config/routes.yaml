@@ -21,8 +21,24 @@ offer.create:
   path: /offer/create
   controller: Offerum\Controller\OfferController:create
 
+offer.edit:
+  path: /offer/{id}/edit
+  controller: Offerum\Controller\OfferController:edit
+  requirements:
+    id: '\d+'
+
+offer.delete:
+  path: /offer/{id}/delete
+  controller: Offerum\Controller\OfferController:delete
+  requirements:
+    id: '\d+'
+
 offer.show:
   path: /offer/{id}
   controller: Offerum\Controller\OfferController:show
   requirements:
     id: '\d+'
+
+user.my_offers:
+  path: /my-offers
+  controller: Offerum\Controller\UserController:myOffers

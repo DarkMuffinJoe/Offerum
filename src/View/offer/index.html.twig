@@ -6,7 +6,7 @@
         {% for offer in offers %}
             <a href="{{ path('offer.show', {'id': offer.id}) }}" class="list-group-item list-group-item-action d-flex">
                 <div class="d-inline">{{ offer.name }}</div>
-                <div class="d-inline ml-auto">{{ (offer.price / 100)|number_format(2, ',', '.') }} PLN</div>
+                <div class="d-inline ml-auto">{{ (offer.price / 100)|number_format(2, ',', ' ') }} PLN</div>
             </a>
         {% endfor %}
     </div>
