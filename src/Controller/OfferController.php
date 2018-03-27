@@ -17,11 +17,14 @@ class OfferController extends AbstractController
         $this->offerRepository = $offerRepository;
     }
 
-    public function index()
+    public function index(int $page)
     {
-        $offers = $this->offerRepository->findAllActive();
+        $offerCount = $this->offerRepository->countActive();
+        $offers = $this->offerRepository->findAllActive(8, $page);
 
         return $this->render('offer/index.html.twig', [
+            'currentPage' => $page,
+            'offerCount' => $offerCount,
             'offers' => $offers
         ]);
     }
@@ -49,7 +52,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, int $id)
     {
         $offer = $this->offerRepository->find($id);
 
@@ -75,7 +78,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $offer = $this->offerRepository->find($id);
 

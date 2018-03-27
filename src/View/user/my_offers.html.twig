@@ -36,4 +36,16 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <nav class="mt-2">
+        <ul class="pagination justify-content-center">
+            {% for page in max(currentPage - 2, 1)..min(currentPage + 2, (offerCount / 8)|round(0, 'ceil')) %}
+                {% if currentPage == page %}
+                    <li class="page-item active"><a class="page-link" href="{{ path('user.my_offers', {'page': page}) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ path('user.my_offers', {'page': page}) }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
 {% endblock %}

@@ -14,8 +14,12 @@ security.register:
   controller: Offerum\Controller\SecurityController:register
 
 offer.index:
-  path: /
+  path: /{page}
   controller: Offerum\Controller\OfferController:index
+  defaults:
+    page: 1
+  requirements:
+    page: '(?!0)\d+'
 
 offer.create:
   path: /offer/create
@@ -40,5 +44,9 @@ offer.show:
     id: '\d+'
 
 user.my_offers:
-  path: /my-offers
+  path: /my-offers/{page}
   controller: Offerum\Controller\UserController:myOffers
+  defaults:
+    page: 1
+  requirements:
+    page: '(?!0)\d+'

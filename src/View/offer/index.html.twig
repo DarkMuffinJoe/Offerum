@@ -2,7 +2,7 @@
 {% set title = 'Indeks' %}
 
 {% block body %}
-    <div class="list-group">
+   <div class="list-group">
         {% for offer in offers %}
             <a href="{{ path('offer.show', {'id': offer.id}) }}" class="list-group-item list-group-item-action d-flex">
                 <div class="d-inline">{{ offer.name }}</div>
@@ -10,4 +10,16 @@
             </a>
         {% endfor %}
     </div>
+
+    <nav class="mt-2">
+        <ul class="pagination justify-content-center">
+            {% for page in max(currentPage - 2, 1)..min(currentPage + 2, (offerCount / 8)|round(0, 'ceil')) %}
+                {% if currentPage == page %}
+                    <li class="page-item active"><a class="page-link" href="{{ path('offer.index', {'page': page}) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ path('offer.index', {'page': page}) }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
 {% endblock %}

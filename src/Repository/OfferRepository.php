@@ -4,6 +4,7 @@ namespace Offerum\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 use Offerum\Entity\Offer;
 use Offerum\Entity\User;
 
@@ -37,28 +38,72 @@ class OfferRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $offersPerPage
+     * @param int $page
      * @return array
      */
-    public function findAllActive()
+    public function findAllActive(int $offersPerPage = 100, int $page = 1)
     {
         return $this->createQueryBuilder('offer')
             ->select('offer')
             ->where('offer.active = true')
+            ->setFirstResult($offersPerPage * ($page - 1))
+            ->setMaxResults($offersPerPage)
             ->getQuery()
             ->getResult();
     }
 
     /**
      * @param User $user
+     * @param int $offersPerPage
+     * @param int $page
      * @return array
      */
-    public function findAllFromUser(User $user)
+    public function findAllFromUser(User $user, int $offersPerPage = 100, int $page = 1)
     {
         return $this->createQueryBuilder('offer')
             ->select('offer')
             ->where('offer.author = :author')
             ->setParameter('author', $user)
+            ->setFirstResult($offersPerPage * ($page - 1))
+            ->setMaxResults($offersPerPage)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return int
+     */
+    public function countActive()
+    {
+        try {
+            return $this->createQueryBuilder('offer')
+                ->select('count(offer.id)')
+                ->where('offer.active = true')
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NonUniqueResultException $exception) {
+            // This should never happen
+            return 0;
+        }
+    }
+
+    /**
+     * @param User $user
+     * @return int
+     */
+    public function countFromUser(User $user)
+    {
+        try {
+            return $this->createQueryBuilder('offer')
+                ->select('count(offer.id)')
+                ->where('offer.author = :user')
+                ->setParameter('user', $user)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NonUniqueResultException $exception) {
+            // This should never happen
+            return 0;
+        }
     }
 }
