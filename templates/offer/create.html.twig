@@ -2,12 +2,30 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% set title = 'Nowa oferta' %}
 
+{% block head_additions %}
+    <style>
+        .ck-editor__editable {
+            min-height: 14em;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class="col-md-5 mx-auto">
+    <div class="col-md-8 mx-auto">
         {{ form_start(form) }}
         {{ form_widget(form) }}
 
         <button class="btn btn-primary" type="submit">Utwórz ofertę</button>
         {{ form_end(form) }}
     </div>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-beta.1/classic/ckeditor.js"></script>
+    <script>
+        var editorFieldId = '#offer_description';
+
+        ClassicEditor.create(document.querySelector(editorFieldId), {
+            removePlugins: [ 'ImageUpload' ],
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ]
+        });
+    </script>
 {% endblock %}

@@ -4,11 +4,11 @@
 {% block body %}
     {% if offer.active == false %}
         <div class="alert alert-danger" role="alert">
-            Warning! This offer is not active!
+            Uwaga! Ta oferta nie jest aktywna!
         </div>
     {% endif %}
 
     <h1 class="mb-0">{{ offer.name }}</h1>
     <small class="text-muted">dodane przez <a href="#">{{ offer.author.username }}</a></small>
-    <p class="mt-3">{{ offer.description }}</p>
+    <p class="mt-3">{{ offer.description|raw }}</p>
 {% endblock %}
