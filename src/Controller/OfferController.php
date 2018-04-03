@@ -34,7 +34,9 @@ class OfferController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $offer = new Offer();
-        $form = $this->createForm(OfferType::class, $offer);
+        $form = $this->createForm(OfferType::class, $offer, [
+            'validation_groups' => ['Default', 'Create']
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,7 +46,9 @@ class OfferController extends AbstractController
 
             $this->offerRepository->save($offer);
 
-            return $this->redirectToRoute('offer.index');
+            return $this->redirectToRoute('offer.show', [
+                'id' => $offer->getId()
+            ]);
         }
 
         return $this->render('offer/create.html.twig', [
@@ -64,10 +68,20 @@ class OfferController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $form = $this->createForm(OfferType::class, $offer);
+        $form = $this->createForm(OfferType::class, $offer, [
+            'validation_groups' => ['Default']
+        ]);
+
+        $oldImage = $offer->getImage();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('image')->getData() == '') {
+                $offer->setImage($oldImage);
+            }
+            // TODO: Move business logic outside of the controller
+            // TODO: Remove previous file
+
             $this->offerRepository->save($offer);
 
             return $this->redirectToRoute('user.my_offers');

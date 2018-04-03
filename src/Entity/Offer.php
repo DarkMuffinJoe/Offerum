@@ -55,6 +55,12 @@ class Offer
     private $active;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -73,7 +79,7 @@ class Offer
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -89,7 +95,7 @@ class Offer
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
@@ -97,7 +103,7 @@ class Offer
     /**
      * @return User
      */
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
@@ -105,7 +111,7 @@ class Offer
     /**
      * @param User $author
      */
-    public function setAuthor(User $author): void
+    public function setAuthor(?User $author): void
     {
         $this->author = $author;
     }
@@ -113,7 +119,7 @@ class Offer
     /**
      * @return \DateTime
      */
-    public function getCreateDate(): \DateTime
+    public function getCreateDate(): ?\DateTime
     {
         return $this->createDate;
     }
@@ -121,7 +127,7 @@ class Offer
     /**
      * @param \DateTime $createDate
      */
-    public function setCreateDate(\DateTime $createDate): void
+    public function setCreateDate(?\DateTime $createDate): void
     {
         $this->createDate = $createDate;
     }
@@ -137,7 +143,7 @@ class Offer
     /**
      * @param int $price
      */
-    public function setPrice(int $price): void
+    public function setPrice(?int $price): void
     {
         $this->price = $price;
     }
@@ -145,7 +151,7 @@ class Offer
     /**
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive(): ?bool
     {
         return $this->active;
     }
@@ -153,8 +159,18 @@ class Offer
     /**
      * @param bool $active
      */
-    public function setActive(bool $active): void
+    public function setActive(?bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image): void
+    {
+        $this->image = $image;
     }
 }

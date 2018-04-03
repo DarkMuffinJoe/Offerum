@@ -9,6 +9,13 @@
     {% endif %}
 
     <h1 class="mb-0">{{ offer.name }}</h1>
-    <small class="text-muted">dodane przez <a href="#">{{ offer.author.username }}</a></small>
-    <p class="mt-3">{{ offer.description|raw }}</p>
+    <small class="text-muted d-block">dodane przez <a href="#">{{ offer.author.username }}</a></small>
+
+    {% if offer.image %}
+        <img class="img-fluid d-block mx-auto" style="max-height: 400px" src="{{ asset('uploads/offers/' ~ offer.image.filename) }}">
+    {% endif %}
+
+    <div class="mt-2" style="word-wrap: break-word">
+        {{ offer.description|raw }}
+    </div>
 {% endblock %}

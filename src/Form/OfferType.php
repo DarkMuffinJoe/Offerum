@@ -4,11 +4,13 @@ namespace Offerum\Form;
 
 use Offerum\Entity\Offer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
@@ -43,6 +45,24 @@ class OfferType extends AbstractType
                         'minMessage' => 'Wartość zbyt krótka, musi mieć minimalnie {{ limit }} znaki',
                         'max' => 4000,
                         'maxMessage' => 'Wartość zbyt długa, musi mieć maksymalnie {{ limit }} znaków'
+                    ])
+                ]
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Obraz',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Obraz dla oferty jest wymagany!',
+                        'groups' => ['Create']
+                    ]),
+                    new File([
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg'
+                        ],
+                        'mimeTypesMessage' => 'Nieprawidłowy format pliku',
+                        'maxSize' => '1M',
+                        'maxSizeMessage' => 'Plik jest zbyt duży! Może mieć maksymalnie 1 MB'
                     ])
                 ]
             ])
