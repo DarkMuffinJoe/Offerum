@@ -3,6 +3,9 @@
 namespace Offerum\Form;
 
 use Offerum\Command\Offer\SaveOfferCommand;
+use Offerum\Entity\DeliveryType;
+use Offerum\Entity\ItemCondition;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -66,6 +69,34 @@ class OfferType extends AbstractType
                         'maxSize' => '1M',
                         'maxSizeMessage' => 'Plik jest zbyt duży! Może mieć maksymalnie 1 MB'
                     ])
+                ]
+            ])
+            ->add('deliveryType', EntityType::class, [
+                'label' => 'Rodzaj przesyłki',
+                'class' => DeliveryType::class,
+                'choice_label' => function(DeliveryType $deliveryType) {
+                    if ($deliveryType->getPrice()) {
+                        $price = '(' . number_format($deliveryType->getPrice() / 100, 2, ',', ' ') . ' PLN)';
+                    } else {
+                        $price = '';
+                    }
+
+                    return $deliveryType->getName() . ' ' . $price;
+                },
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
+                    ]),
+                ]
+            ])
+            ->add('condition', EntityType::class, [
+                'label' => 'Stan przedmiotu',
+                'class' => ItemCondition::class,
+                'choice_label' => 'name',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
+                    ]),
                 ]
             ])
             ->add('price', MoneyType::class, [

@@ -16,6 +16,7 @@ class FileUploader
     /**
      * @param UploadedFile $file
      * @param string $subDirectory
+     *
      * @return string
      */
     public function upload(UploadedFile $file, string $subDirectory)

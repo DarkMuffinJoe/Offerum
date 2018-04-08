@@ -2,6 +2,8 @@
 
 namespace Offerum\Command\Offer;
 
+use Offerum\Entity\DeliveryType;
+use Offerum\Entity\ItemCondition;
 use Offerum\Entity\Offer;
 use Offerum\Entity\User;
 use Symfony\Component\HttpFoundation\File\File;
@@ -39,6 +41,16 @@ class SaveOfferCommand
     public $price;
 
     /**
+     * @var DeliveryType
+     */
+    public $deliveryType;
+
+    /**
+     * @var ItemCondition
+     */
+    public $condition;
+
+    /**
      * @var bool
      */
     public $active;
@@ -63,6 +75,8 @@ class SaveOfferCommand
         $command->createDate = $offer->getCreateDate();
         $command->description = $offer->getDescription();
         $command->price = $offer->getPrice();
+        $command->deliveryType = $offer->getDeliveryType();
+        $command->condition = $offer->getCondition();
         $command->active = $offer->isActive();
         $command->image = $offer->getImage();
 

@@ -17,6 +17,7 @@ class OfferRepository extends ServiceEntityRepository
 
     /**
      * @param Offer $offer
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -28,6 +29,7 @@ class OfferRepository extends ServiceEntityRepository
 
     /**
      * @param Offer $offer
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -40,6 +42,7 @@ class OfferRepository extends ServiceEntityRepository
     /**
      * @param int $offersPerPage
      * @param int $page
+     *
      * @return array
      */
     public function findAllActive(int $offersPerPage = 100, int $page = 1)
@@ -57,6 +60,7 @@ class OfferRepository extends ServiceEntityRepository
      * @param User $user
      * @param int $offersPerPage
      * @param int $page
+     *
      * @return array
      */
     public function findAllFromUser(User $user, int $offersPerPage = 100, int $page = 1)
@@ -90,6 +94,7 @@ class OfferRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
+     *
      * @return int
      */
     public function countFromUser(User $user)

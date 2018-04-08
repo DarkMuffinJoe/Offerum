@@ -12,8 +12,21 @@
     <small class="text-muted d-block">dodane przez <a href="#">{{ offer.author.username }}</a></small>
 
     {% if offer.image %}
-        <img class="img-fluid d-block mx-auto" style="max-height: 400px" src="{{ asset('uploads/offers/' ~ offer.image.filename) }}">
+        <img class="d-block" style="width: 100%; height: auto; max-height: 400px" src="{{ asset('uploads/offers/' ~ offer.image.filename) }}">
     {% endif %}
+
+    <hr>
+
+    <div class="d-flex">
+        <div class="col-md-6 text-center">
+            Dostawa: {{ offer.deliveryType.name }}
+        </div>
+        <div class="col-md-6 text-center">
+            Stan: {{ offer.condition.name }}
+        </div>
+    </div>
+
+    <hr>
 
     <div class="mt-2" style="word-wrap: break-word">
         {{ offer.description|raw }}

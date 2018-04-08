@@ -8,8 +8,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
+ *
  * @package Offerum\Entity
+ *
  * @ORM\Entity(repositoryClass="Offerum\Repository\UserRepository")
+ *
  * @UniqueEntity(fields="username", message="Nazwa użytkownika zajęta")
  * @UniqueEntity(fields="email", message="Email już w użyciu")
  */
@@ -20,6 +23,7 @@ class User implements UserInterface
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -28,24 +32,28 @@ class User implements UserInterface
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $username;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $email;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $password;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
      */
     private $role;
@@ -58,7 +66,10 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    /**
+     * {@inheritdoc}
+     */
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -74,7 +85,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -87,6 +98,9 @@ class User implements UserInterface
         $this->email = $email;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPassword(): string
     {
         return $this->password;
@@ -100,6 +114,9 @@ class User implements UserInterface
         $this->password = $password;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRoles()
     {
         $roles = [];

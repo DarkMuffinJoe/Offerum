@@ -6,13 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Offer
+ *
  * @package Offerum\Entity
+ *
  * @ORM\Entity(repositoryClass="Offerum\Repository\OfferRepository")
  */
 class Offer
 {
     /**
-     * @var integer
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -21,42 +24,63 @@ class Offer
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $name;
 
     /**
      * @var User
+     *
      * @ORM\ManyToOne(targetEntity="Offerum\Entity\User")
      */
     private $author;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      */
     private $createDate;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @var integer
+     * @var int
+     *
      * @ORM\Column(type="integer")
      */
     private $price;
 
     /**
+     * @var DeliveryType
+     *
+     * @ORM\ManyToOne(targetEntity="Offerum\Entity\DeliveryType")
+     */
+    private $deliveryType;
+
+    /**
+     * @var ItemCondition
+     *
+     * @ORM\ManyToOne(targetEntity="Offerum\Entity\ItemCondition")
+     */
+    private $condition;
+
+    /**
      * @var boolean
+     *
      * @ORM\Column(type="boolean")
      */
     private $active;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $image;
@@ -72,7 +96,7 @@ class Offer
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -80,7 +104,7 @@ class Offer
     /**
      * @param string $name
      */
-    public function setName(?string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -88,7 +112,7 @@ class Offer
     /**
      * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -96,7 +120,7 @@ class Offer
     /**
      * @param string $description
      */
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -104,7 +128,7 @@ class Offer
     /**
      * @return User
      */
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }
@@ -112,7 +136,7 @@ class Offer
     /**
      * @param User $author
      */
-    public function setAuthor(?User $author): void
+    public function setAuthor(User $author): void
     {
         $this->author = $author;
     }
@@ -120,7 +144,7 @@ class Offer
     /**
      * @return \DateTime
      */
-    public function getCreateDate(): ?\DateTime
+    public function getCreateDate(): \DateTime
     {
         return $this->createDate;
     }
@@ -128,7 +152,7 @@ class Offer
     /**
      * @param \DateTime $createDate
      */
-    public function setCreateDate(?\DateTime $createDate): void
+    public function setCreateDate(\DateTime $createDate): void
     {
         $this->createDate = $createDate;
     }
@@ -136,7 +160,7 @@ class Offer
     /**
      * @return int
      */
-    public function getPrice(): ?int
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -144,15 +168,47 @@ class Offer
     /**
      * @param int $price
      */
-    public function setPrice(?int $price): void
+    public function setPrice(int $price): void
     {
         $this->price = $price;
     }
 
     /**
+     * @return DeliveryType
+     */
+    public function getDeliveryType(): DeliveryType
+    {
+        return $this->deliveryType;
+    }
+
+    /**
+     * @param DeliveryType $deliveryType
+     */
+    public function setDeliveryType(DeliveryType $deliveryType): void
+    {
+        $this->deliveryType = $deliveryType;
+    }
+
+    /**
+     * @return ItemCondition
+     */
+    public function getCondition(): ItemCondition
+    {
+        return $this->condition;
+    }
+
+    /**
+     * @param ItemCondition $condition
+     */
+    public function setCondition(ItemCondition $condition): void
+    {
+        $this->condition = $condition;
+    }
+
+    /**
      * @return bool
      */
-    public function isActive(): ?bool
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -160,7 +216,7 @@ class Offer
     /**
      * @param bool $active
      */
-    public function setActive(?bool $active): void
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }

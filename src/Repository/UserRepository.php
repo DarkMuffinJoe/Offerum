@@ -16,7 +16,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function loadUserByUsername($username)
     {
@@ -34,6 +34,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     /**
      * @param User $user
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -45,6 +46,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     /**
      * @param User $user
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
