@@ -2,7 +2,8 @@
 
 namespace Offerum\Controller;
 
-use Offerum\Entity\Offer;
+use Offerum\Command\Offer\SaveOfferCommand;
+use Offerum\Command\Offer\SaveOfferHandler;
 use Offerum\Form\OfferType;
 use Offerum\Repository\OfferRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,25 +30,25 @@ class OfferController extends AbstractController
         ]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request, SaveOfferHandler $offerHandler)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $offer = new Offer();
-        $form = $this->createForm(OfferType::class, $offer, [
+        $saveCommand = new SaveOfferCommand();
+        $form = $this->createForm(OfferType::class, $saveCommand, [
             'validation_groups' => ['Default', 'Create']
         ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $offer->setAuthor($this->getUser());
-            $offer->setCreateDate(new \DateTime());
-            $offer->setActive(true);
+            $saveCommand->author = $this->getUser();
+            $saveCommand->active = true;
+            $saveCommand->createDate = new \DateTime();
 
-            $this->offerRepository->save($offer);
+            $offerId = $offerHandler->handle($saveCommand);
 
             return $this->redirectToRoute('offer.show', [
-                'id' => $offer->getId()
+                'id' => $offerId
             ]);
         }
 
@@ -56,7 +57,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, int $id)
+    public function edit(Request $request, int $id, SaveOfferHandler $offerHandler)
     {
         $offer = $this->offerRepository->find($id);
 
@@ -68,21 +69,14 @@ class OfferController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $form = $this->createForm(OfferType::class, $offer, [
+        $saveCommand = SaveOfferCommand::fromEntity($offer);
+        $form = $this->createForm(OfferType::class, $saveCommand, [
             'validation_groups' => ['Default']
         ]);
 
-        $oldImage = $offer->getImage();
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('image')->getData() == '') {
-                $offer->setImage($oldImage);
-            }
-            // TODO: Move business logic outside of the controller
-            // TODO: Remove previous file
-
-            $this->offerRepository->save($offer);
+            $offerHandler->handle($saveCommand);
 
             return $this->redirectToRoute('user.my_offers');
         }

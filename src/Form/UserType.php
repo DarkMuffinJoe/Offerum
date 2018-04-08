@@ -2,7 +2,7 @@
 
 namespace Offerum\Form;
 
-use Offerum\Entity\User;
+use Offerum\Command\User\SaveUserCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -43,7 +43,6 @@ class UserType extends AbstractType
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'mapped' => false,
                 'invalid_message' => 'Hasła nie są takie same',
                 'constraints' => [
                     new NotBlank([
@@ -68,7 +67,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class
+            'data_class' => SaveUserCommand::class
         ]);
     }
 }

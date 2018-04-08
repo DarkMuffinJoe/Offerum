@@ -2,7 +2,7 @@
 
 namespace Offerum\Form;
 
-use Offerum\Entity\Offer;
+use Offerum\Command\Offer\SaveOfferCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -36,6 +36,7 @@ class OfferType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Opis',
+                'required' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'To pole nie może być puste'
@@ -50,6 +51,7 @@ class OfferType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => 'Obraz',
+                'required' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Obraz dla oferty jest wymagany!',
@@ -85,7 +87,7 @@ class OfferType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Offer::class
+            'data_class' => SaveOfferCommand::class
         ]);
     }
 }
