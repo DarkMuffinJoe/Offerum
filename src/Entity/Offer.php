@@ -1,6 +1,7 @@
 <?php
 
 namespace Offerum\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
