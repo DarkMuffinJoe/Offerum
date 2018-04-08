@@ -58,8 +58,7 @@ class OfferImageUploadListener
         if ($file instanceof UploadedFile) {
             $fileName = $this->uploader->upload($file, $this->subDirectory);
             $entity->setImage($fileName);
-        }
-        elseif ($file instanceof File) {
+        } elseif ($file instanceof File) {
             $fileName = $file->getBasename();
             $entity->setImage($fileName);
         }

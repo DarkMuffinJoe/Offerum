@@ -106,8 +106,7 @@ class User implements UserInterface
 
         if ($this->role == self::ROLE_USER) {
             $roles[] = "ROLE_USER";
-        }
-        elseif ($this->role == self::ROLE_ADMIN) {
+        } elseif ($this->role == self::ROLE_ADMIN) {
             $roles[] = "ROLE_ADMIN";
         }
 
@@ -124,11 +123,9 @@ class User implements UserInterface
 
     public function getSalt()
     {
-
     }
 
     public function eraseCredentials()
     {
-
     }
 }
