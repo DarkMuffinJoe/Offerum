@@ -2,6 +2,7 @@
 
 namespace Offerum\Command\User;
 
+use Offerum\Entity\Address;
 use Offerum\Entity\User;
 use Offerum\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -35,9 +36,19 @@ class SaveUserHandler
             $user = new User();
         }
 
+        $address = new Address();
+
+        $address->street = $command->addressStreet;
+        $address->city = $command->addressCity;
+        $address->postalCode = $command->addressPostalCode;
+        $address->country = $command->addressCountry;
+
         $user->setUsername($command->username);
         $user->setEmail($command->email);
         $user->setRole($command->role);
+        $user->setFullName($command->fullName);
+        $user->setAddress($address);
+        $user->setPhoneNumer($command->phoneNumber);
 
         if ($command->plainPassword) {
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $command->plainPassword);

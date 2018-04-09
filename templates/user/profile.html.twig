@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% set title = user.username %}
+
+{% block body %}
+    <h1>Konto użytkownika {{ user.username }}</h1>
+    <hr>
+
+    <h3>Dane kontaktowe</h3>
+    Email: {{ user.email }}<br>
+    Numer: {{ user.phoneNumer ?? 'Nie podano' }}
+    <br>
+    <br>
+
+    <h3>Adres</h3>
+    Ulica: {{ user.address.street }}<br>
+    Miasto: {{ user.address.city }}<br>
+    Kod pocztowy: {{ user.address.postalCode }}<br>
+    Kraj: {{ user.address.country }}<br>
+    <br>
+
+    <h3>Oferty</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col" class="w-50">Nazwa</th>
+            <th scope="col" class="w-25">Cena</th>
+            <th scope="col" class="w-25 text-right">Opcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for offer in offers %}
+            <tr>
+                <td class="align-middle">
+                    {% if offer.active %}
+                        <span class="badge badge-success">Aktywne</span>
+                    {% else %}
+                        <span class="badge badge-danger">Nieaktywne</span>
+                    {% endif %}
+                    {{ offer.name }}
+                </td>
+                <td class="align-middle">{{ (offer.price / 100)|number_format(2, ',', ' ')}} PLN</td>
+                <td class="text-right">
+                    <a class="btn btn-sm btn-primary" href="{{ path('offer.show', {'id': offer.id}) }}">Pokaż</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <nav class="mt-2">
+        <ul class="pagination justify-content-center">
+            {% for page in max(currentPage - 2, 1)..min(currentPage + 2, max((offerCount / 5)|round(0, 'ceil'), 1)) %}
+                {% if currentPage == page %}
+                    <li class="page-item active"><a class="page-link" href="{{ path('user.profile', {'id': user.id, 'page': page}) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ path('user.profile', {'id': user.id, 'page': page}) }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}

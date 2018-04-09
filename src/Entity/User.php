@@ -59,6 +59,27 @@ class User implements UserInterface
     private $role;
 
     /**
+     * @var string|string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $fullName;
+
+    /**
+     * @var Address|string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $address;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $phoneNumer;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -136,6 +157,54 @@ class User implements UserInterface
     public function setRole(int $role): void
     {
         $this->role = $role;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * @param string $fullName
+     */
+    public function setFullName(string $fullName): void
+    {
+        $this->fullName = $fullName;
+    }
+
+    /**
+     * @return Address|string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param Address|string $address
+     */
+    public function setAddress($address): void
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumer(): ?string
+    {
+        return $this->phoneNumer;
+    }
+
+    /**
+     * @param string $phoneNumer|null
+     */
+    public function setPhoneNumer(?string $phoneNumer): void
+    {
+        $this->phoneNumer = $phoneNumer;
     }
 
     public function getSalt()

@@ -32,6 +32,36 @@ class SaveUserCommand
     public $role;
 
     /**
+     * @var string
+     */
+    public $fullName;
+
+    /**
+     * @var string
+     */
+    public $addressStreet;
+
+    /**
+     * @var string
+     */
+    public $addressCity;
+
+    /**
+     * @var string
+     */
+    public $addressPostalCode;
+
+    /**
+     * @var string
+     */
+    public $addressCountry;
+
+    /**
+     * @var string
+     */
+    public $phoneNumber;
+
+    /**
      * @param User $user
      * @return SaveUserCommand
      */
@@ -42,6 +72,12 @@ class SaveUserCommand
         $command->id = $user->getId();
         $command->username = $user->getUsername();
         $command->email = $user->getEmail();
+        $command->fullName = $user->getFullName();
+        $command->addressStreet = $user->getAddress()->street;
+        $command->addressCity = $user->getAddress()->city;
+        $command->addressPostalCode = $user->getAddress()->postalCode;
+        $command->addressCountry = $user->getAddress()->country;
+        $command->phoneNumber = $user->getPhoneNumer();
 
         $roles = $user->getRoles();
 

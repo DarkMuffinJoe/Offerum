@@ -50,3 +50,12 @@ user.my_offers:
     page: 1
   requirements:
     page: '(?!0)\d+'
+
+user.profile:
+  path: /profile/{id}/{page}
+  controller: Offerum\Controller\UserController:profile
+  defaults:
+    page: 1
+  requirements:
+    id: '\d+'
+    page: '(?!0)\d+'

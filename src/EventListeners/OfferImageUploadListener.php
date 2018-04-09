@@ -47,7 +47,7 @@ class OfferImageUploadListener
         }
     }
 
-    public function upload($entity)
+    protected function upload($entity)
     {
         if (!$entity instanceof Offer) {
             return;
