@@ -3,6 +3,7 @@
 namespace Offerum\Form;
 
 use Offerum\Command\Offer\SaveOfferCommand;
+use Offerum\Entity\Category;
 use Offerum\Entity\DeliveryType;
 use Offerum\Entity\ItemCondition;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -35,6 +36,16 @@ class OfferType extends AbstractType
                         'max' => 64,
                         'maxMessage' => 'Wartość zbyt długa, musi mieć maksymalnie {{ limit }} znaków'
                     ])
+                ]
+            ])
+            ->add('category', EntityType::class, [
+                'label' => 'Kategoria',
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
+                    ]),
                 ]
             ])
             ->add('description', TextareaType::class, [
@@ -74,7 +85,7 @@ class OfferType extends AbstractType
             ->add('deliveryType', EntityType::class, [
                 'label' => 'Rodzaj przesyłki',
                 'class' => DeliveryType::class,
-                'choice_label' => function(DeliveryType $deliveryType) {
+                'choice_label' => function (DeliveryType $deliveryType) {
                     if ($deliveryType->getPrice()) {
                         $price = '(' . number_format($deliveryType->getPrice() / 100, 2, ',', ' ') . ' PLN)';
                     } else {

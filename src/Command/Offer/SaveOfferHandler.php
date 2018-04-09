@@ -40,6 +40,7 @@ class SaveOfferHandler
         $offer->setPrice($command->price);
         $offer->setDeliveryType($command->deliveryType);
         $offer->setCondition($command->condition);
+        $offer->setCategory($command->category);
         $offer->setActive($command->active);
 
         if ($command->image instanceof UploadedFile) {

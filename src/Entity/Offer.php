@@ -72,6 +72,13 @@ class Offer
     private $condition;
 
     /**
+     * @var Category
+     *
+     * @ORM\ManyToOne(targetEntity="Offerum\Entity\Category", inversedBy="offers")
+     */
+    private $category;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(type="boolean")
@@ -203,6 +210,22 @@ class Offer
     public function setCondition(ItemCondition $condition): void
     {
         $this->condition = $condition;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory(): Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category): void
+    {
+        $this->category = $category;
     }
 
     /**

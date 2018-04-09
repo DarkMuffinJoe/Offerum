@@ -2,6 +2,7 @@
 
 namespace Offerum\Command\Offer;
 
+use Offerum\Entity\Category;
 use Offerum\Entity\DeliveryType;
 use Offerum\Entity\ItemCondition;
 use Offerum\Entity\Offer;
@@ -51,6 +52,11 @@ class SaveOfferCommand
     public $condition;
 
     /**
+     * @var Category
+     */
+    public $category;
+
+    /**
      * @var bool
      */
     public $active;
@@ -77,6 +83,7 @@ class SaveOfferCommand
         $command->price = $offer->getPrice();
         $command->deliveryType = $offer->getDeliveryType();
         $command->condition = $offer->getCondition();
+        $command->category = $offer->getCategory();
         $command->active = $offer->isActive();
         $command->image = $offer->getImage();
 
