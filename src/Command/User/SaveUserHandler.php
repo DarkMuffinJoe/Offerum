@@ -48,7 +48,7 @@ class SaveUserHandler
         $user->setRole($command->role);
         $user->setFullName($command->fullName);
         $user->setAddress($address);
-        $user->setPhoneNumer($command->phoneNumber);
+        $user->setPhoneNumber($command->phoneNumber);
 
         if ($command->plainPassword) {
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $command->plainPassword);

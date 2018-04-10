@@ -2,6 +2,8 @@
 {% set title = 'Moje oferty' %}
 
 {% block body %}
+    <h3>Lista Twoich ofert</h3>
+
     {% if offerCount == 0 %}
         <div class="alert alert-primary" role="alert">
             Nie posiadasz żadnych ofert! Możesz je stworzyć za pomocą <a href="{{ path('offer.create') }}">tego linku</a>!

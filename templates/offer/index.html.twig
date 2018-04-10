@@ -14,7 +14,7 @@
 
     <nav class="mt-2">
         <ul class="pagination justify-content-center">
-            {% for page in max(currentPage - 2, 1)..min(currentPage + 2, (offerCount / 8)|round(0, 'ceil')) %}
+            {% for page in max(currentPage - 2, 1)..min(currentPage + 2, max((offerCount / 8)|round(0, 'ceil'), 1)) %}
                 {% if currentPage == page %}
                     <li class="page-item active"><a class="page-link" href="{{ path('offer.index', {'page': page}) }}">{{ page }}</a></li>
                 {% else %}

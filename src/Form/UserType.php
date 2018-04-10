@@ -91,14 +91,6 @@ class UserType extends AbstractType
                     ])
                 ]
             ])
-            ->add('addressCity', TextType::class, [
-                'label' => 'Miasto',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'To pole nie może być puste'
-                    ])
-                ]
-            ])
             ->add('addressPostalCode', TextType::class, [
                 'label' => 'Kod pocztowy',
                 'constraints' => [
@@ -108,6 +100,14 @@ class UserType extends AbstractType
                     new Regex([
                         'pattern' => '/\d{2}-\d{3}/',
                         'message' => 'To nie jest prawidłowy kod pocztowy'
+                    ])
+                ]
+            ])
+            ->add('addressCity', TextType::class, [
+                'label' => 'Miasto',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'To pole nie może być puste'
                     ])
                 ]
             ])

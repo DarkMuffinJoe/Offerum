@@ -5,17 +5,22 @@
     <h1>Konto użytkownika {{ user.username }}</h1>
     <hr>
 
-    <h3>Dane kontaktowe</h3>
-    Email: {{ user.email }}<br>
-    Numer: {{ user.phoneNumer ?? 'Nie podano' }}
-    <br>
-    <br>
+    <div class="d-flex">
+        <div class="col-md-6">
+            <h3>Adres</h3>
+            Ulica: {{ user.address.street }}<br>
+            Miasto: {{ user.address.city }}<br>
+            Kod pocztowy: {{ user.address.postalCode }}<br>
+            Kraj: {{ user.address.country }}<br>
+        </div>
+        <div class="col-md-6 border-left">
+            <h3>Dane kontaktowe</h3>
+            Pełna nazwa: {{ user.fullName }}<br>
+            Email: {{ user.email }}<br>
+            Numer telefonu: {{ user.phoneNumber|default('Nie podano') }}
+        </div>
+    </div>
 
-    <h3>Adres</h3>
-    Ulica: {{ user.address.street }}<br>
-    Miasto: {{ user.address.city }}<br>
-    Kod pocztowy: {{ user.address.postalCode }}<br>
-    Kraj: {{ user.address.country }}<br>
     <br>
 
     <h3>Oferty</h3>

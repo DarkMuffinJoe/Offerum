@@ -29,13 +29,13 @@ class UserAddressListener
             return;
         }
 
-        $addressElements = explode(';', $entity->getAddress());
+        $data = json_decode($entity->getAddress(), true);
         $address = new Address();
 
-        $address->street = $addressElements[0];
-        $address->city = $addressElements[1];
-        $address->postalCode = $addressElements[2];
-        $address->country = $addressElements[3];
+        $address->street = $data['street'];
+        $address->city = $data['city'];
+        $address->postalCode = $data['postalCode'];
+        $address->country = $data['country'];
 
         $entity->setAddress($address);
     }
@@ -49,7 +49,14 @@ class UserAddressListener
         $address = $entity->getAddress();
 
         if ($address instanceof Address) {
-            $entity->setAddress($address->street . ';' . $address->city . ';' . $address->postalCode . ';' . $address->country);
+            $data = [
+                'street' => $entity->getAddress()->street,
+                'city' => $entity->getAddress()->city,
+                'postalCode' => $entity->getAddress()->postalCode,
+                'country' => $entity->getAddress()->country
+            ];
+
+            $entity->setAddress(json_encode($data));
         }
     }
 }

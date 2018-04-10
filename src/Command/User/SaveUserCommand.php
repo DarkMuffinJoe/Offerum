@@ -77,7 +77,7 @@ class SaveUserCommand
         $command->addressCity = $user->getAddress()->city;
         $command->addressPostalCode = $user->getAddress()->postalCode;
         $command->addressCountry = $user->getAddress()->country;
-        $command->phoneNumber = $user->getPhoneNumer();
+        $command->phoneNumber = $user->getPhoneNumber();
 
         $roles = $user->getRoles();
 

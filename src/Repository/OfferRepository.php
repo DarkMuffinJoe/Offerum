@@ -43,7 +43,7 @@ class OfferRepository extends ServiceEntityRepository
      * @param int $offersPerPage
      * @param int $page
      *
-     * @return array
+     * @return Offer[]
      */
     public function findAllActive(int $offersPerPage = 100, int $page = 1)
     {
@@ -61,7 +61,7 @@ class OfferRepository extends ServiceEntityRepository
      * @param int $offersPerPage
      * @param int $page
      *
-     * @return array
+     * @return Offer[]
      */
     public function findAllFromUser(User $user, int $offersPerPage = 100, int $page = 1)
     {

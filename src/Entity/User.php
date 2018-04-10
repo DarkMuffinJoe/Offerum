@@ -77,7 +77,7 @@ class User implements UserInterface
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $phoneNumer;
+    private $phoneNumber;
 
     /**
      * @return int
@@ -194,17 +194,17 @@ class User implements UserInterface
     /**
      * @return string|null
      */
-    public function getPhoneNumer(): ?string
+    public function getPhoneNumber(): ?string
     {
-        return $this->phoneNumer;
+        return $this->phoneNumber;
     }
 
     /**
-     * @param string $phoneNumer|null
+     * @param string $phoneNumber|null
      */
-    public function setPhoneNumer(?string $phoneNumer): void
+    public function setPhoneNumber(?string $phoneNumber): void
     {
-        $this->phoneNumer = $phoneNumer;
+        $this->phoneNumber = $phoneNumber;
     }
 
     public function getSalt()

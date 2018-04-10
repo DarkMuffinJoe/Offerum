@@ -9,7 +9,7 @@
     {% endif %}
 
     <h1 class="mb-0">{{ offer.name }}</h1>
-    <small class="text-muted d-block">dodane przez <a href="{{ path('user.profile', {'id': offer.author.id}) }}">{{ offer.author.username }}</a></small>
+    <small class="text-muted d-block">dodane przez <a href="{{ path('user.profile', {'id': offer.author.id}) }}">{{ offer.author.fullName }}</a></small>
 
     {% if offer.image %}
         <img class="d-block" style="width: 100%; height: auto; max-height: 400px" src="{{ asset('uploads/offers/' ~ offer.image.filename) }}">
