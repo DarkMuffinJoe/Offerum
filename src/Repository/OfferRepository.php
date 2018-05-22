@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Offerum\Entity\Offer;
+use Offerum\Entity\SearchCriteria;
 use Offerum\Entity\User;
 
 class OfferRepository extends ServiceEntityRepository
@@ -50,6 +51,31 @@ class OfferRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('offer')
             ->select('offer')
             ->where('offer.active = true')
+            ->orderBy('offer.createDate', 'DESC')
+            ->setFirstResult($offersPerPage * ($page - 1))
+            ->setMaxResults($offersPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param SearchCriteria $criteria
+     * @param int $offersPerPage
+     * @param int $page
+     *
+     * @return Offer[]
+     *
+     * @throws \Doctrine\ORM\Query\QueryException
+     */
+    public function findByCriteria(SearchCriteria $criteria, int $offersPerPage = 100, int $page = 1)
+    {
+        return $this->createQueryBuilder('offer')
+            ->select('offer')
+            ->leftJoin('offer.category', 'category')
+            ->leftJoin('offer.condition', 'condition')
+            ->leftJoin('offer.deliveryType', 'delivery')
+            ->orderBy('offer.createDate', 'DESC')
+            ->addCriteria($criteria->getCriteria())
             ->setFirstResult($offersPerPage * ($page - 1))
             ->setMaxResults($offersPerPage)
             ->getQuery()
@@ -63,12 +89,13 @@ class OfferRepository extends ServiceEntityRepository
      *
      * @return Offer[]
      */
-    public function findAllFromUser(User $user, int $offersPerPage = 100, int $page = 1)
+    public function findAllFromUser(User $user, int $offersPerPage = 100000, int $page = 1)
     {
         return $this->createQueryBuilder('offer')
             ->select('offer')
             ->where('offer.author = :author')
             ->setParameter('author', $user)
+            ->orderBy('offer.createDate', 'DESC')
             ->setFirstResult($offersPerPage * ($page - 1))
             ->setMaxResults($offersPerPage)
             ->getQuery()

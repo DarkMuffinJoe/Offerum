@@ -1,26 +1,142 @@
 {% extends 'base.html.twig' %}
 {% set title = 'Indeks' %}
 
-{% block body %}
-   <div class="list-group">
-        {% for offer in offers %}
-            <a href="{{ path('offer.show', {'id': offer.id}) }}" class="list-group-item list-group-item-action d-flex">
-                <div class="col-4 text-left">{{ offer.name }}</div>
-                <div class="col-4 text-center">{{ offer.category.name }}</div>
-                <div class="col-4 text-right">{{ (offer.price / 100)|number_format(2, ',', ' ') }} PLN</div>
-            </a>
-        {% endfor %}
-    </div>
+{% block head_additions %}
+    <style>
+        .offer {
+            padding: 0;
+        }
 
-    <nav class="mt-2">
-        <ul class="pagination justify-content-center">
-            {% for page in max(currentPage - 2, 1)..min(currentPage + 2, max((offerCount / 8)|round(0, 'ceil'), 1)) %}
-                {% if currentPage == page %}
-                    <li class="page-item active"><a class="page-link" href="{{ path('offer.index', {'page': page}) }}">{{ page }}</a></li>
-                {% else %}
-                    <li class="page-item"><a class="page-link" href="{{ path('offer.index', {'page': page}) }}">{{ page }}</a></li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </nav>
+        .offer .col-4 {
+            padding: 0;
+        }
+
+        .offer-price {
+            padding-right: 20px !important;
+        }
+
+        .offer img {
+            height: 100px;
+            width: 178px;
+        }
+
+        .search-selected {
+            border-left: 2px #007bff solid;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="d-flex">
+        <div class="col-md-3">
+            <div class="search list-group mb-3" data-parameter="categories">
+                <a href="javascript:void(0);" class="list-group-item list-group-item-action active">
+                    Kategorie
+                </a>
+                {% for category in searchValues.categories %}
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-value="{{ category.id }}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+
+            <div class="search list-group mb-3" data-parameter="conditions">
+                <a href="javascript:void(0);" class="list-group-item list-group-item-action active">
+                    Stany przedmiotu
+                </a>
+                {% for condition in searchValues.conditions %}
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-value="{{ condition.id }}">{{ condition.name }}</a>
+                {% endfor %}
+            </div>
+
+            <div class="search list-group" data-parameter="deliveryTypes">
+                <a href="javascript:void(0);" class="list-group-item list-group-item-action active">
+                    Rodzaje przesyłek
+                </a>
+                {% for deliveryType in searchValues.deliveryTypes %}
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-value="{{ deliveryType.id }}">{{ deliveryType.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="list-group">
+                {% for offer in offers %}
+                    <a href="{{ path('offer.show', {'id': offer.id}) }}" class="offer list-group-item list-group-item-action d-flex">
+                        <div class="col-4 text-left"><img src="{{ asset('uploads/offers/' ~ offer.image.filename) }}"></div>
+                        <div class="col-4 my-auto text-center"><b>{{ offer.name }}</b><br>{{ offer.category.name }}</div>
+                        <div class="col-4 my-auto offer-price text-right">{{ (offer.price / 100)|number_format(2, ',', ' ') }} PLN</div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <nav class="mt-2">
+                <ul class="pagination justify-content-center">
+                    {% for page in max(currentPage - 2, 1)..min(currentPage + 2, max((offerCount / 8)|round(0, 'ceil'), 1)) %}
+                        {% if currentPage == page %}
+                            <li class="page-item active"><a class="page-link" href="{{ path('offer.index', {'page': page}|merge(params)) }}">{{ page }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="{{ path('offer.index', {'page': page}|merge(params)) }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_additions %}
+    <script>
+        const url = new URL(location.href);
+
+        function toggleSearchCriteria(parameter, value) {
+            if (searchCriteria[parameter].includes(value)) {
+                const index = searchCriteria[parameter].indexOf(value);
+                searchCriteria[parameter].splice(index, 1);
+            } else {
+                searchCriteria[parameter].push(value);
+            }
+
+            if (searchCriteria[parameter].length > 0) {
+                url.searchParams.set(parameter, searchCriteria[parameter].join(","));
+            } else {
+                url.searchParams.delete(parameter);
+            }
+
+            window.location.replace(url.href);
+        }
+
+        const searchCriteriaStrings = {
+            "categories": url.searchParams.get("categories"),
+            "conditions": url.searchParams.get("conditions"),
+            "deliveryTypes" : url.searchParams.get("deliveryTypes")
+        };
+
+        const searchCriteria = {
+            categories: [],
+            conditions: [],
+            deliveryTypes: []
+        };
+
+        if (searchCriteriaStrings.categories) {
+            searchCriteria.categories = searchCriteriaStrings.categories.split(",");
+        }
+
+        if (searchCriteriaStrings.conditions) {
+            searchCriteria.conditions = searchCriteriaStrings.conditions.split(",");
+        }
+
+        if (searchCriteriaStrings.deliveryTypes) {
+            searchCriteria.deliveryTypes = searchCriteriaStrings.deliveryTypes.split(",");
+        }
+
+        for (const criteria of document.getElementsByClassName("search")) {
+            for (const searchValue of criteria.childNodes) {
+                if (searchValue.dataset && searchValue.dataset.value) {
+                    searchValue.onclick = (() => { toggleSearchCriteria(criteria.dataset.parameter, searchValue.dataset.value) });
+
+                    if (searchCriteria[criteria.dataset.parameter] && searchCriteria[criteria.dataset.parameter].includes(searchValue.dataset.value)) {
+                        searchValue.classList.add("search-selected");
+                    }
+                }
+            }
+        }
+    </script>
 {% endblock %}

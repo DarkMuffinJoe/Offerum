@@ -4,8 +4,10 @@ namespace Offerum\Controller;
 
 use Offerum\Command\Offer\SaveOfferCommand;
 use Offerum\Command\Offer\SaveOfferHandler;
+use Offerum\Entity\SearchCriteria;
 use Offerum\Form\OfferType;
 use Offerum\Repository\OfferRepository;
+use Offerum\Services\SearchValuesRetriever;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,15 +20,19 @@ class OfferController extends AbstractController
         $this->offerRepository = $offerRepository;
     }
 
-    public function index(int $page)
+    public function index(Request $request, int $page, SearchValuesRetriever $searchValuesRetriever)
     {
-        $offerCount = $this->offerRepository->countActive();
-        $offers = $this->offerRepository->findAllActive(8, $page);
+        $criteria = SearchCriteria::fromRequest($request);
+
+        $offerCount = count($this->offerRepository->findByCriteria($criteria));
+        $offers = $this->offerRepository->findByCriteria($criteria, 8, $page);
 
         return $this->render('offer/index.html.twig', [
-            'currentPage' => $page,
-            'offerCount' => $offerCount,
-            'offers' => $offers
+            "currentPage"=> $page,
+            "offerCount" => $offerCount,
+            "offers" => $offers,
+            "searchValues" => $searchValuesRetriever->getAllValues(),
+            "params" => $criteria->getParams()
         ]);
     }
 
